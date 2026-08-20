@@ -1,0 +1,18 @@
+brand:
+  name: 台灣蔬菜種植研究室
+  english_name: Taiwan Vegetable Lab
+  tagline: 從研究文獻到田間操作
+  promise: 把官方試驗與農業研究，整理成台灣氣候下可以驗證的種植方法。
+categories:
+  - {key: crops, name: 種｜作物資料庫, description: 葉菜、果菜、根莖與香草的品種與生育特性}
+  - {key: calendar, name: 時｜播種曆, description: 依台灣月份、區域與溫度安排適期適作}
+  - {key: environment, name: 光｜環境條件, description: 光照、溫度、濕度、風與設施管理}
+  - {key: soil, name: 土｜介質土壤, description: pH、EC、有機質、排水與土壤診斷}
+  - {key: nutrition, name: 肥｜肥培管理, description: 基肥、追肥、缺素與合理化施肥}
+  - {key: irrigation, name: 水｜灌溉管理, description: 澆水時機、介質含水與滴灌策略}
+  - {key: propagation, name: 苗｜播種育苗, description: 發芽、穴盤、移植與健苗判斷}
+  - {key: pests, name: 蟲｜害蟲管理, description: 害蟲辨識、監測與綜合管理 IPM}
+  - {key: diseases, name: 病｜病害診斷, description: 症狀、病原、環境誘因與預防策略}
+  - {key: facilities, name: 棚｜設施栽培, description: 網室、溫室、遮陰與通風管理}
+  - {key: harvest, name: 收｜採收品質, description: 採收成熟度、處理、產量與品質紀錄}
+  - {key: research, name: 研｜研究解讀, description: 論文、試驗報告與技術專刊的白話解讀}
