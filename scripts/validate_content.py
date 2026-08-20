@@ -32,6 +32,10 @@ for item in sorted((root/'_posts').glob('*.md')):
     image=root/str(meta.get('image','')).lstrip('/')
     if not image.exists(): errors.append('image missing')
     elif Image.open(image).size != (1200,630): errors.append('image must be 1200x630')
+    cover_credits = meta.get('photo_credits') or []
+    for index, credit in enumerate(cover_credits, 1):
+        for key in ('creator', 'source', 'license', 'license_url', 'modifications'):
+            if not credit.get(key): errors.append(f'cover image {index} missing {key}')
     inline_images = meta.get('inline_images') or []
     if 1 + len(inline_images) < policy['minimum_images']: errors.append('fewer than 3 images')
     for index, item_image in enumerate(inline_images, 1):
