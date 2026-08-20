@@ -3,6 +3,7 @@ from pathlib import Path
 from urllib.parse import urlparse
 import yaml
 from PIL import Image
+import re
 root = Path(__file__).resolve().parents[1]
 policy = yaml.safe_load((root/'automation/content-policy.yml').read_text())
 trusted = yaml.safe_load((root/'automation/trusted-sources.yml').read_text())['approved_domains']
@@ -18,12 +19,26 @@ for item in sorted((root/'_posts').glob('*.md')):
     for claim in policy['blocked_claims']:
         if claim in text: errors.append(f'blocked claim {claim}')
     if len(meta.get('sources') or []) < policy['minimum_sources']: errors.append('not enough sources')
+    official_sources = 0
     for source in meta.get('sources') or []:
         host=(urlparse(source.get('url','')).hostname or '').lower()
-        if not any(host==d or host.endswith('.'+d) for d in trusted): errors.append(f'untrusted source {host}')
+        if any(host==d or host.endswith('.'+d) for d in trusted): official_sources += 1
+        else: errors.append(f'untrusted source {host}')
+    if official_sources < policy['minimum_official_sources']: errors.append('not enough official sources')
+    plain_body = re.sub(r'[#>*_`\[\](){}/|:-]', '', body)
+    plain_body = re.sub(r'\s+', '', plain_body)
+    if len(plain_body) < policy['minimum_body_characters']:
+        errors.append(f'article too short ({len(plain_body)}/{policy["minimum_body_characters"]} characters)')
     image=root/str(meta.get('image','')).lstrip('/')
     if not image.exists(): errors.append('image missing')
     elif Image.open(image).size != (1200,630): errors.append('image must be 1200x630')
+    inline_images = meta.get('inline_images') or []
+    if 1 + len(inline_images) < policy['minimum_images']: errors.append('fewer than 3 images')
+    for index, item_image in enumerate(inline_images, 1):
+        for key in ('src', 'alt', 'caption', 'creator', 'source', 'license', 'license_url', 'modifications'):
+            if not item_image.get(key): errors.append(f'inline image {index} missing {key}')
+        inline_path = root/str(item_image.get('src','')).lstrip('/')
+        if not inline_path.exists(): errors.append(f'inline image {index} missing file')
     if errors: failed.append(f'{item.name}: '+ '; '.join(errors))
 if failed: raise SystemExit('\n'.join(failed))
 print(f'Validated {len(list((root/"_posts").glob("*.md")))} article(s).')
