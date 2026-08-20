@@ -1,0 +1,4 @@
+required_meta: [title, description, category, crop, scientific_name, evidence_level, reviewed_at, image, image_alt, image_caption, sources, photo_credits]
+minimum_sources: 2
+required_sections: [研究重點, 研究限制, 參考資料]
+blocked_claims: [保證增產, 百分之百防治, 萬用肥, 不需辨識直接施藥]
