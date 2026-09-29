@@ -4,6 +4,7 @@ lang: zh-TW
 timezone: Asia/Taipei
 url: "https://honorlin.github.io"
 baseurl: "/taiwan-vegetable-lab"
+google_analytics: "G-P7M7E5LRV2"
 permalink: /articles/:year/:month/:day/:title/
 markdown: kramdown
 future: false
